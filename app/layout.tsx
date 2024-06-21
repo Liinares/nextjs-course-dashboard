@@ -4,8 +4,8 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Acme Dashboard | @lllariogonzalez',
-    default: 'Acme Dashboard by @lllariogonzalez',
+    template: '%s | Acme Dashboard | Miguel Ángel Linares',
+    default: 'Acme Dashboard by Miguel Ángel Linares',
   },
   description: 'The official Next.js Course Dashboard, built with App Router.',
   metadataBase: new URL('https://nextjs-dashboard-acme.vercel.app'),
@@ -20,8 +20,8 @@ export const metadata: Metadata = {
   twitter: {
     site: '@acme',
     description:'The official Next.js Learn Dashboard built with App Router.',
-    title:'Acme Dashboard by @lllariogonzalez',
-    creator:'@lllariogonzalez',
+    title:'Acme Dashboard by Miguel Ángel Linares',
+    creator:'Miguel Ángel Linares',
   },
 };
 

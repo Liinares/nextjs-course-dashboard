@@ -7,7 +7,7 @@ import { revalidatePath } from 'next/cache'
 import { signIn } from '@/auth'
 import { AuthError } from 'next-auth'
 
-const CreateInvoiceSchema = z.object({
+const InvoiceSchema = z.object({
   id: z.string(),
   customerId: z.string({
     invalid_type_error: 'Please select a customer.',
@@ -21,7 +21,7 @@ const CreateInvoiceSchema = z.object({
   date: z.string(),
 })
 
-const CreateInvoiceFormSchema = CreateInvoiceSchema.omit({
+const CreateInvoiceFormSchema = InvoiceSchema.omit({
   id: true,
   date: true,
 })
@@ -85,4 +85,25 @@ export async function authenticate(
     }
     throw error;
   }
+}
+
+const UpdateInvoiceSchema = InvoiceSchema.omit({ id: true, date: true });
+
+export async function updateInvoice(id: string, formData: FormData) {
+  const { customerId, amount, status } = UpdateInvoiceSchema.parse({
+    customerId: formData.get('customerId'),
+    amount: formData.get('amount'),
+    status: formData.get('status'),
+  });
+
+  const amountInCents = amount * 100;
+
+  await sql`
+    UPDATE invoices
+    SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
+    WHERE id = ${id}
+  `;
+
+  revalidatePath('/dashboard/invoices');
+  redirect('/dashboard/invoices');
 }
